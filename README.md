@@ -1,7 +1,7 @@
 # QuickWaifu2x
 waifu2x GUI, 그런데 이제 클립보드를 곁드린
 
-#### 릴리즈 버전은 [여기](https://github.com/Soju06/QuickWaifu2x/releases/download/v1.0.0/quickWaifu2x-1.0.0_net6.0-windows10.0.20348.0.zip)에서 다운받을 수 있습니다.
+#### 릴리즈 버전은 [여기](https://github.com/Soju06/QuickWaifu2x/releases/download/v1.1.0/quickWaifu2x-1.1.0_net5.0-windows10.0.20348.0.zip)에서 다운받을 수 있습니다.
 
 ## Getting started on Windows
 
@@ -10,14 +10,9 @@ waifu2x GUI, 그런데 이제 클립보드를 곁드린
    [waifu2x-ncnn-vulkan](https://github.com/nihui/waifu2x-ncnn-vulkan)에 의존되어있습니다.
 
    파라미터 형식이 변하지 않았다면 최신버전으로도 작동 합니다.
-
    
 
    다음의 프로그램은 윈도우 10 이상에서만 작동할껍니다.
-
-   개발 언어는 .NET Core 6 rc.1 버전으로 현재(21년 9월 기준) 윈도우 10 및 11에 기본 설치되어있지 않으므로
-
-   [Download .NET 6.0](https://dotnet.microsoft.com/download/dotnet/6.0) 다음의 사이트에서 .NET Runtime을 설치해 주세요!
 
 2. 파일을 다운받고 압축을 푸세요!
 
