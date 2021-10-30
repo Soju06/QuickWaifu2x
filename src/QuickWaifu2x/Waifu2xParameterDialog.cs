@@ -1,4 +1,6 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.IO;
+using System.Windows.Forms;
 
 namespace QuickWaifu2x {
     public partial class Waifu2xParameterDialog : Form {

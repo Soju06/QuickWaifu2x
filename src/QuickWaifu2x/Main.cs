@@ -1,6 +1,11 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace QuickWaifu2x {
@@ -30,7 +35,10 @@ namespace QuickWaifu2x {
                     var f = GetTempImagePath((Bitmap)e.GetData(DataFormats.Bitmap));
                     files = new (string, string)[] { new(f, f) };
                 }
-            } else files = GetConvertibleFiles(new[] { fileName });
+            }
+            else if (fileName.Contains(';'))
+                files = GetConvertibleFiles(fileName.Split(';'));
+            else files = GetConvertibleFiles(new[] { fileName });
             if (files == null || files.Length < 1) return;
             if(files?.Length > 1) {
                 (var o, var d) = ImageMultipleMessageBox.ShowDialog(files);
@@ -100,11 +108,18 @@ namespace QuickWaifu2x {
             using var fd = new OpenFileDialog();
             fd.Filter = "All file|*.png;*.jpg|Png file|*.png|Jpg file|*.jpg";
             fd.Title = "이미지 선택";
+            fd.Multiselect = true;
             if (fd.ShowDialog() == DialogResult.OK) {
-                if (!File.Exists(fd.FileName)) return;
-                OnWaifu2x(fd.FileName);
+                var files = fd.FileNames;
+                if (files == null || files.Length < 1) return;
+                for (int i = 0; i < files.Length; i++)
+                    if (!File.Exists(files[i])) return;
+                OnWaifu2x(files.Join(";"));
             }
         }
+
+        void Invoke(Action action) =>
+            base.Invoke(action);
     }
 
     [Flags]

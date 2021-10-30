@@ -1,5 +1,11 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Drawing;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace QuickWaifu2x {
@@ -55,10 +61,18 @@ namespace QuickWaifu2x {
                 for (int i = 0; i < Files.Length; i++)
                     OnStartWork(Files[i]);
                 Invoke(() => {
+                    if (OutFiles.Count > 1) {
+                        var ss = new StringCollection();
+                        foreach (var item in OutFiles)
+                            ss.Add(item.Item2);
+                        Clipboard.SetFileDropList(ss);
+                    }
+
                     button1.Enabled = OutFiles.Count > 0;
                     button2.Text = "닫기 (&C)";
                     CurrentProgressStyle = false;
                     TotalCurrentProgress = CurrentProgress = 1;
+
                     notifyIcon1.ShowBalloonTip(2000, $"인코딩이 완료되었습니다.", $"총 {Files.Length - failedCount}개를 인코딩했습니다.", ToolTipIcon.Info);
                 });
             } catch (Exception ex) {
@@ -72,6 +86,12 @@ namespace QuickWaifu2x {
         void OnStartWork((string, string) e) {
             try {
                 (var fullName, var source) = e;
+                Task.Factory.StartNew(() => {
+                    pictureBox1.Image?.Dispose();
+                    if (new FileInfo(source).Length <= (15 * 1024) * 1024)
+                        pictureBox1.Image = Image.FromFile(fullName);
+                });
+
                 Invoke(() => CurrentProgressText = Path.GetFileName(fullName));
                 var p = (Waifu2xNcnnVulkanParameter)Parameter.Clone();
                 p.Source = source;
@@ -86,6 +106,7 @@ namespace QuickWaifu2x {
                     OnFailed(source, pr.Result);
                 else {
                     OutFiles.Add(new(fullName, p.Target));
+
                     if (Files.Length == 1) Invoke(() => Clipboard.SetImage(i));
                 }
                 i?.Dispose();
@@ -174,5 +195,8 @@ namespace QuickWaifu2x {
             if (e == null || e.IsNullOrWhiteSpace()) return;
             Invoke(() => Log(e));
         }
+
+        void Invoke(Action action) => 
+            base.Invoke(action);
     }
 }

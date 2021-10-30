@@ -44,8 +44,8 @@
             // notify
             // 
             this.notify.ContextMenuStrip = this.contextMenu;
-            this.notify.Icon = ((System.Drawing.Icon)(resources.GetObject("notify.Icon")));
-            this.notify.Text = "notifyIcon1";
+            this.notify.Icon = ((System.Drawing.Icon)(resources.GetObject("icon")));
+            this.notify.Text = "QuickWaifu2x";
             this.notify.Visible = true;
             // 
             // contextMenu

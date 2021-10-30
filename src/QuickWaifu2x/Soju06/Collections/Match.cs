@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Soju06.Collections {
     public class Match<T1, T2> : IEnumerable<Match<T1, T2>.MatchPair> {

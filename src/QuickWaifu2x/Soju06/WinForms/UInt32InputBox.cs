@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace QuickWaifu2x.Soju06.WinForms {
     public class UInt32InputBox : TextBox {
