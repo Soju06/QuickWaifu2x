@@ -44,9 +44,10 @@
             // notify
             // 
             this.notify.ContextMenuStrip = this.contextMenu;
-            this.notify.Icon = ((System.Drawing.Icon)(resources.GetObject("icon")));
+            this.notify.Icon = ((System.Drawing.Icon)(resources.GetObject("notify.Icon")));
             this.notify.Text = "QuickWaifu2x";
             this.notify.Visible = true;
+            this.notify.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OnNotify);
             // 
             // contextMenu
             // 
@@ -115,6 +116,7 @@
             this.Text = " ";
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnClosing);
+            this.Shown += new System.EventHandler(this.OnShown);
             this.contextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 

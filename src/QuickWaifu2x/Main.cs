@@ -12,8 +12,11 @@ namespace QuickWaifu2x {
     internal partial class Main : Form {
         readonly Dictionary<int, Action> HotKeys = new();
 
+        public static Icon Icon { get; private set; }
+
         public Main() {
             InitializeComponent();
+            Icon = notify.Icon;
             RegisterHotKey(KeyModifiers.Windows | KeyModifiers.Shift, Keys.E, OnWaifu2x);
             RegisterHotKey(KeyModifiers.Windows | KeyModifiers.Shift, Keys.R, OnSettings);
             Visible = false;
@@ -27,7 +30,7 @@ namespace QuickWaifu2x {
 
         void OnWaifu2x(string fileName) {
             var e = Clipboard.GetDataObject();
-            (string, string)[] files = null;
+            (string, string)[]? files = null;
             if (fileName.IsNullOrWhiteSpace()) {
                 if (e.GetDataPresent(DataFormats.FileDrop))
                     files = GetConvertibleFiles((string[])e.GetData(DataFormats.FileDrop));
@@ -47,6 +50,7 @@ namespace QuickWaifu2x {
             }
             var parms = Waifu2xParameterDialog.ShowDialog();
             if (parms == null) return;
+            if (files == null || files.Length < 1) return;
 
             new ProgressDialog(files, parms).Show();
             GC.Collect();
@@ -82,11 +86,11 @@ namespace QuickWaifu2x {
 
         void RegisterHotKey(KeyModifiers kid, Keys key, Action action) {
             HotKeys.Add(hotKeyId, action);
-            RegisterHotKey((int)Handle, hotKeyId++, (int)kid, (int)key);
+            _ = RegisterHotKey((int)Handle, hotKeyId++, (int)kid, (int)key);
         }
 
         void UnregisterHotKeys() => HotKeys.All(e =>
-            UnregisterHotKey((int)Handle, e.Key));
+            _ = UnregisterHotKey((int)Handle, e.Key));
 
 
         [DllImport("user32.dll")]
@@ -120,6 +124,15 @@ namespace QuickWaifu2x {
 
         void Invoke(Action action) =>
             base.Invoke(action);
+
+        private void OnNotify(object sender, MouseEventArgs e) =>
+            파일로실행ToolStripMenuItem.PerformClick();
+
+        private void OnShown(object sender, EventArgs e) {
+            Hide();
+            if (TimeSpan.FromMilliseconds(Environment.TickCount64) >= new TimeSpan(0, 3, 0))
+                notify.ShowBalloonTip(2000, "QuickWaifu2x가 시스템 트레이에서 실행중입니다.", "QuickWaifu2x", ToolTipIcon.Info);
+        }
     }
 
     [Flags]

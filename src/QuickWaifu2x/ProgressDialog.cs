@@ -12,6 +12,7 @@ namespace QuickWaifu2x {
     internal partial class ProgressDialog : Form {
         public ProgressDialog((string, string)[] files, Waifu2xNcnnVulkanParameter parameter) {
             InitializeComponent();
+            notifyIcon1.Icon = Main.Icon;
             Parameter = parameter;
             Files = files;
             TotalCurrentProgress = CurrentProgress = 0;
@@ -27,7 +28,7 @@ namespace QuickWaifu2x {
         int currentCount, failedCount;
         bool closed;
 
-        void SetState(object? _ = null) => label1.Text = $"{progress:F0}% {currentCount}/{Files.Length}";
+        void SetState(object? _ = null) => notifyIcon1.Text = "QuickWaifu2x " + (label1.Text = $"{progress:F0}% {currentCount}/{Files.Length}");
 
         int CurrentCount {
             set {
