@@ -42,7 +42,10 @@ namespace QuickWaifu2x {
             else if (fileName.Contains(';'))
                 files = GetConvertibleFiles(fileName.Split(';'));
             else files = GetConvertibleFiles(new[] { fileName });
-            if (files == null || files.Length < 1) return;
+            if (files == null || files.Length < 1) {
+                notify.ShowBalloonTip(1000, "해당 파일은 업스케일할 수 없습니다.", "QuickWaifu2x", ToolTipIcon.Info);
+                return;
+            }
             if(files?.Length > 1) {
                 (var o, var d) = ImageMultipleMessageBox.ShowDialog(files);
                 if (!(o == DialogResult.OK)) return;

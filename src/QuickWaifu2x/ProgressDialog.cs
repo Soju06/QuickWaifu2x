@@ -90,7 +90,8 @@ namespace QuickWaifu2x {
                 Task.Factory.StartNew(() => {
                     pictureBox1.Image?.Dispose();
                     if (new FileInfo(source).Length <= (15 * 1024) * 1024)
-                        pictureBox1.Image = Image.FromFile(fullName);
+                        using (var stream = File.OpenRead(fullName))
+                            pictureBox1.Image = Image.FromStream(stream);
                 });
 
                 Invoke(() => CurrentProgressText = Path.GetFileName(fullName));
@@ -187,6 +188,7 @@ namespace QuickWaifu2x {
             closed = true;
             Thread?.Interrupt();
             Process?.Dispose();
+            pictureBox1?.Image?.Dispose();
         }
 
         private void OnClosed(object sender, FormClosedEventArgs e) =>
