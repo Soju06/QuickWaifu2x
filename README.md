@@ -1,7 +1,7 @@
 # QuickWaifu2x
 waifu2x GUI, 그런데 이제 클립보드를 곁드린
 
-#### 릴리즈 버전은 [여기](https://github.com/Soju06/QuickWaifu2x/releases/download/v1.1.0/quickWaifu2x-1.1.0_net5.0-windows10.0.20348.0.zip)에서 다운받을 수 있습니다.
+#### 릴리즈 버전은 [여기](https://github.com/Soju06/QuickWaifu2x/releases/download/v1.1.2/quickWaifu2x-1.1.2_net5.0-windows10.0.20348.0.zip)에서 다운받을 수 있습니다.
 
 ## Getting started on Windows
 
